@@ -1,24 +1,78 @@
 const knex = require("../connection/connection");
 
-const listandoSalas = async (req, res) => {
+const listingRooms = async (req, res) => {
   try {
-    const salas = await knex("salas");
-    res.status(201).json(salas);
+    const rooms = await knex("salas");
+
+    return res.status(200).json(rooms);
   } catch (error) {
-    res.json({ mensagem: "Erro interno no servidor", erro: error.message });
+    return res
+      .status(500)
+      .json({ mensagem: "Erro interno no servidor", erro: error.message });
   }
 };
 
-const criandoSala = async (req, res) => {
+const listingUsersInThisRoom = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const users = await knex("participantes")
+      .where("sala_id", id)
+      .returning("*");
+
+    return res.status(200).json(users);
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ mensagem: "Erro interno no servidor", erro: error.message });
+  }
+};
+
+const creatingRoom = async (req, res) => {
   const { video } = req.body;
   try {
-    const sala = await knex("salas")
+    const room = await knex("salas")
       .insert({ video })
       .returning(["id", "video"]);
-    res.status(201).json(sala);
+
+    return res.status(201).json(room);
   } catch (error) {
-    res.json({ mensagem: "Erro interno no servidor", erro: error.message });
+    return res
+      .status(500)
+      .json({ mensagem: "Erro interno no servidor", erro: error.message });
   }
 };
 
-module.exports = { listandoSalas, criandoSala };
+const updatingRoom = async (req, res) => {
+  const { video, usuario } = req.body;
+  const { id } = req.params;
+
+  try {
+    const usuario = await knex("participantes")
+      .where("usuario", usuario)
+      .returning("*");
+
+    if (!usuario[0].host) {
+      return res
+        .status(403)
+        .json({ mensagem: "Desculpa, você não tem permissão para isso" });
+    }
+
+    const updatedRoom = await knex("salas")
+      .update({ video })
+      .where("id", id)
+      .returning(["id", "video"]);
+
+    return es.status(200).json(updatedRoom);
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ mensagem: "Erro interno no servidor", erro: error.message });
+  }
+};
+
+module.exports = {
+  listingRooms,
+  listingUsersInThisRoom,
+  creatingRoom,
+  updatingRoom,
+};

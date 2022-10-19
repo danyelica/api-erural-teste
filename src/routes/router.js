@@ -1,8 +1,17 @@
 const express = require("express");
 const router = express.Router();
-const { listandoSalas, criandoSala } = require("../controllers/salas");
+const {
+  listingRooms,
+  creatingRoom,
+  updatingRoom,
+} = require("../controllers/salas");
+const { creatingUser } = require("../controllers/participantes");
 
-router.get("/salas", listandoSalas);
-router.post("/salas", criandoSala);
+router.get("/salas", listingRooms);
+router.get("/salas/:id", listingUsersInThisRoom);
+router.post("/salas", creatingRoom);
+router.put("/salas/:id", updatingRoom);
+
+router.post("/participantes", creatingUser);
 
 module.exports = router;
