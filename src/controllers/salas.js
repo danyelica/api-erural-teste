@@ -62,7 +62,7 @@ const updatingRoom = async (req, res) => {
       .where("id", id)
       .returning(["id", "video"]);
 
-    return es.status(200).json(updatedRoom);
+    return res.status(200).json(updatedRoom);
   } catch (error) {
     return res
       .status(500)
