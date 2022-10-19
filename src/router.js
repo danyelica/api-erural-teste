@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const {
   listingRooms,
+  listingUsersInThisRoom,
   creatingRoom,
   updatingRoom,
 } = require("./controllers/salas");
