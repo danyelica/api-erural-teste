@@ -28,10 +28,10 @@ const listingUsersInThisRoom = async (req, res) => {
 };
 
 const creatingRoom = async (req, res) => {
-  const { video } = req.body;
+  const { video, url } = req.body;
   try {
     const room = await knex("salas")
-      .insert({ video })
+      .insert({ video, url })
       .returning(["id", "video"]);
 
     return res.status(201).json(room);
