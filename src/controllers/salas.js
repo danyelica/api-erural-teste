@@ -47,11 +47,11 @@ const updatingRoom = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const usuario = await knex("participantes")
+    const searchingUsuario = await knex("participantes")
       .where("usuario", usuario)
       .returning("*");
 
-    if (!usuario[0].host) {
+    if (!searchingUsuario[0].host) {
       return res
         .status(403)
         .json({ mensagem: "Desculpa, você não tem permissão para isso" });
