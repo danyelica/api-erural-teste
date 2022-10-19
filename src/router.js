@@ -4,8 +4,8 @@ const {
   listingRooms,
   creatingRoom,
   updatingRoom,
-} = require("../controllers/salas");
-const { creatingUser } = require("../controllers/participantes");
+} = require("./controllers/salas");
+const { creatingUser } = require("./controllers/participantes");
 
 router.get("/salas", listingRooms);
 router.get("/salas/:id", listingUsersInThisRoom);
