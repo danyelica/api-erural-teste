@@ -35,7 +35,7 @@ const creatingRoom = async (req, res) => {
   try {
     const room = await knex("salas")
       .insert({ video, url })
-      .returning(["id", "video"]);
+      .returning(["id", "video", "url"]);
 
     return res.status(201).json(room);
   } catch (error) {

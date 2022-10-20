@@ -9,7 +9,7 @@ const {
 const { creatingUser } = require("./controllers/participantes");
 
 router.get("/salas", listingRooms);
-router.get("/salas/:id", listingThisRoom);
+router.get("/salas/:url", listingThisRoom);
 router.post("/salas", creatingRoom);
 router.put("/salas/:id", updatingRoom);
 
