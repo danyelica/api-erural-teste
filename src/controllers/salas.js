@@ -12,14 +12,17 @@ const listingRooms = async (req, res) => {
   }
 };
 
-const listingUsersInThisRoom = async (req, res) => {
-  const { id } = req.params;
+const listingThisRoom = async (req, res) => {
+  const { url } = req.params;
+
   try {
+    const details = await knex("salas").where("url", url).returning("*");
+
     const users = await knex("participantes")
-      .where("sala_id", id)
+      .where("sala_id", details[0].id)
       .returning("*");
 
-    return res.status(200).json(users);
+    return res.status(200).json({ ...details[0], users });
   } catch (error) {
     return res
       .status(500)
@@ -72,7 +75,7 @@ const updatingRoom = async (req, res) => {
 
 module.exports = {
   listingRooms,
-  listingUsersInThisRoom,
+  listingThisRoom,
   creatingRoom,
   updatingRoom,
 };
